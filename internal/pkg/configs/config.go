@@ -15,16 +15,18 @@ const (
 )
 
 type config struct {
-	Log struct {
+	Mode string `yaml:"mode"`
+	Log  struct {
 		Level string `yaml:"level"`
 	} `yaml:"log"`
-	Db struct {
+	Mongo struct {
+		Db               string `yaml:"db"`
 		Host             string `yaml:"host"`
 		Port             int    `yaml:"port"`
 		Username         string `yaml:"username"`
 		Password         string `yaml:"password"`
 		ConnectionString string
-	} `yaml:"db"`
+	} `yaml:"mongo"`
 }
 
 var (
@@ -38,15 +40,17 @@ func New() *config {
 		if err != nil {
 			panic(err)
 		}
+		defer file.Close()
 		d := yaml.NewDecoder(file)
-		if err := d.Decode(instance); err != nil {
+		if err := d.Decode(&instance); err != nil {
 			panic(err)
 		}
+		instance.initLog()
 
-		if instance.Db.Username != "" && instance.Db.Password != "" {
-			instance.Db.ConnectionString = fmt.Sprintf("mongodb://%s:%s@%s:%d", instance.Db.Username, instance.Db.Password, instance.Db.Host, instance.Db.Port)
+		if instance.Mongo.Username != "" && instance.Mongo.Password != "" {
+			instance.Mongo.ConnectionString = fmt.Sprintf("mongodb://%s:%s@%s:%d", instance.Mongo.Username, instance.Mongo.Password, instance.Mongo.Host, instance.Mongo.Port)
 		} else {
-			instance.Db.ConnectionString = fmt.Sprintf("mongodb://%s:%d", instance.Db.Host, instance.Db.Port)
+			instance.Mongo.ConnectionString = fmt.Sprintf("mongodb://%s:%d", instance.Mongo.Host, instance.Mongo.Port)
 		}
 
 		log.Debug("config initialized")
@@ -78,5 +82,6 @@ func (c *config) initLog() {
 
 	log.SetLevel(logLevel[c.Log.Level])
 	log.SetFormatter(customFormatter)
+	log.SetReportCaller(true)
 	log.Debug("logger initialized")
 }
