@@ -1,0 +1,8 @@
+log:
+  level: DEBUG
+
+db:
+  host: 192.168.31.73
+  port: 27017
+  username:
+  password:
