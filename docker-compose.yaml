@@ -1,0 +1,9 @@
+version: '3'
+services:
+  data_provider:
+    build:
+      context: ./
+      dockerfile: ./build/Dockerfile
+    image: allensyk/data_provider:0.1.0
+    container_name: provider
+    command: ['sleep', 'infinity']
