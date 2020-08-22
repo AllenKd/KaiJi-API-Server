@@ -1,8 +1,12 @@
 package configs
 
 import (
+	"fmt"
 	log "github.com/sirupsen/logrus"
+	"gopkg.in/yaml.v2"
 	"os"
+	"runtime"
+	"strings"
 	"sync"
 )
 
@@ -15,10 +19,11 @@ type config struct {
 		Level string `yaml:"level"`
 	} `yaml:"log"`
 	Db struct {
-		Host     string `yaml:"host"`
-		Port     int    `yaml:"port"`
-		Username string `yaml:"username"`
-		Password string `yaml:"password"`
+		Host             string `yaml:"host"`
+		Port             int    `yaml:"port"`
+		Username         string `yaml:"username"`
+		Password         string `yaml:"password"`
+		ConnectionString string
 	} `yaml:"db"`
 }
 
@@ -31,19 +36,47 @@ func New() *config {
 	once.Do(func() {
 		file, err := os.Open(configPath)
 		if err != nil {
-
+			panic(err)
 		}
+		d := yaml.NewDecoder(file)
+		if err := d.Decode(instance); err != nil {
+			panic(err)
+		}
+
+		if instance.Db.Username != "" && instance.Db.Password != "" {
+			instance.Db.ConnectionString = fmt.Sprintf("mongodb://%s:%s@%s:%d", instance.Db.Username, instance.Db.Password, instance.Db.Host, instance.Db.Port)
+		} else {
+			instance.Db.ConnectionString = fmt.Sprintf("mongodb://%s:%d", instance.Db.Host, instance.Db.Port)
+		}
+
+		log.Debug("config initialized")
 	})
+	return instance
 }
 
 func (c *config) initLog() {
-	logLevel := map[string]log.Level {
+	logLevel := map[string]log.Level{
 		"DEBUG": log.DebugLevel,
-		"INFO": log.InfoLevel,
-		"WARN": log.WarnLevel,
+		"INFO":  log.InfoLevel,
+		"WARN":  log.WarnLevel,
 		"ERROR": log.ErrorLevel,
 		"FATAL": log.FatalLevel,
 		"PANIC": log.PanicLevel,
 	}
+
+	callerFormatter := func(path string) string {
+		arr := strings.Split(path, "/")
+		return arr[len(arr)-1]
+	}
+	customFormatter := &log.TextFormatter{
+		TimestampFormat: "2006-01-02 15:04:05.000",
+		FullTimestamp:   true,
+		CallerPrettyfier: func(f *runtime.Frame) (string, string) {
+			return "", fmt.Sprintf("%s:%d", callerFormatter(f.File), f.Line)
+		},
+	}
+
 	log.SetLevel(logLevel[c.Log.Level])
+	log.SetFormatter(customFormatter)
+	log.Debug("logger initialized")
 }
