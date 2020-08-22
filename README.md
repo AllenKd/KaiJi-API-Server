@@ -2,27 +2,40 @@
 
 RESTful API for query game data.
 
-## Get Game
+## Build
 
-Path: ` GET /kais/v1/games`
+```
+$ docker-compose build
+```
 
-### Query Parameter
+## Docker Image
+
+```
+$ docker pull allensyk/data_provider
+```
+
+## API
+### Get Game
+
+PATH: ` GET /kais/v1/games`
+
+#### Query Parameter
 
 | Parameter | Type | Mandatory | Description |
-| :---: | :---: | :---: | :---: |
+| :---: | :---: | :---: | :--- |
 | game-type | string | Y | One of NBA, MLB, NPB. |
 | begin | string | Y | Begin date(include), ex: 20200131. |
 | end | string | Y | End date(include), ex: 20200228. |
 
-## Example
+### Example
 
-### Request
+#### Request
 
 ```
 GET /kais/v1/games?game-type=NBA&begin=20191004&end=20191005
 ```
 
-### Response
+#### Response
 
 ```
 HTTP/1.1 200 OK
