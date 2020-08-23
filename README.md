@@ -1,4 +1,4 @@
-# Data Provider
+# KaiJi Data Provider
 
 RESTful API for query game data.
 
@@ -11,13 +11,13 @@ $ docker-compose build
 ## Docker Image
 
 ```
-$ docker pull allensyk/data_provider
+$ docker pull allensyk/kaiji-data-provider
 ```
 
 ## API
 ### Get Game
 
-PATH: ` GET /kais/v1/games`
+PATH: ` GET /kaiji/v1/games`
 
 #### Query Parameter
 
@@ -32,7 +32,7 @@ PATH: ` GET /kais/v1/games`
 #### Request
 
 ```
-GET /kais/v1/games?game-type=NBA&begin=20191004&end=20191005
+GET /kaiji/v1/games?game-type=NBA&begin=20191004&end=20191005
 ```
 
 #### Response
