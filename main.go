@@ -14,5 +14,6 @@ func main() {
 	gin.SetMode(configs.New().Mode)
 	route.Setup(r)
 
-	_ = r.Run(":8080")
+	// start http server and listen on default port 8080
+	_ = r.Run()
 }
