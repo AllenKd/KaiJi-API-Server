@@ -6,6 +6,6 @@ import (
 )
 
 func Setup(r *gin.Engine) {
-	v1 := r.Group("/kais/v1/games")
+	v1 := r.Group("/kaiji/v1/games")
 	v1.GET("", handler.GetGames)
 }
