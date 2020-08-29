@@ -4,6 +4,6 @@ services:
     build:
       context: ./
       dockerfile: ./build/Dockerfile
-    image: allensyk/kaiji-data-provider:1.0.0
-    container_name: provider
+    image: allensyk/kaiji-api-server:1.0.0
+    container_name: api-server
     command: ['sleep', 'infinity']
