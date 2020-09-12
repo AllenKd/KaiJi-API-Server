@@ -1,7 +1,7 @@
 package route
 
 import (
-	"apiServer/internal/pkg/route/handler"
+	"KaiJi-API-Server/internal/pkg/route/handler"
 	"github.com/gin-gonic/gin"
 )
 

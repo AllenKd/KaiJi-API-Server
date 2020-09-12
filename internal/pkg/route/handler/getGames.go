@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"apiServer/internal/pkg/db"
+	"KaiJi-API-Server/internal/pkg/db"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
