@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"dataProvider/internal/pkg/db"
+	"apiServer/internal/pkg/db"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"

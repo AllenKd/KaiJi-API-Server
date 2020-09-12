@@ -1,8 +1,8 @@
 package db
 
 import (
-	"dataProvider/internal/pkg/configs"
-	"dataProvider/internal/pkg/db/collection"
+	"apiServer/internal/pkg/configs"
+	"apiServer/internal/pkg/db/collection"
 	log "github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"

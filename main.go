@@ -1,9 +1,9 @@
 package main
 
 import (
-	"dataProvider/internal/pkg/configs"
-	"dataProvider/internal/pkg/db"
-	"dataProvider/internal/pkg/route"
+	"apiServer/internal/pkg/configs"
+	"apiServer/internal/pkg/db"
+	"apiServer/internal/pkg/route"
 	"github.com/gin-gonic/gin"
 )
 

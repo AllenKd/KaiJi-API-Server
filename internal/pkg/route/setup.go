@@ -1,7 +1,7 @@
 package route
 
 import (
-	"dataProvider/internal/pkg/route/handler"
+	"apiServer/internal/pkg/route/handler"
 	"github.com/gin-gonic/gin"
 )
 
