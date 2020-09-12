@@ -1,4 +1,4 @@
-module dataProvider
+module apiServer
 
 go 1.15
 
