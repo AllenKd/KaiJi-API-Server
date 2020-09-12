@@ -1,8 +1,8 @@
 package db
 
 import (
-	"apiServer/internal/pkg/configs"
-	"apiServer/internal/pkg/db/collection"
+	"KaiJi-API-Server/internal/pkg/configs"
+	"KaiJi-API-Server/internal/pkg/db/collection"
 	log "github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"

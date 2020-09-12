@@ -1,4 +1,4 @@
-module apiServer
+module KaiJi-API-Server
 
 go 1.15
 
