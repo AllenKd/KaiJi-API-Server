@@ -9,6 +9,7 @@ import (
 	"time"
 )
 
+// TODO: make query parameter flexible
 type GetGamesReq struct {
 	GameType string
 	Begin string

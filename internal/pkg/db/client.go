@@ -13,10 +13,11 @@ import (
 type client struct {
 	*mongo.Client
 	SportsData *mongo.Collection
+	Gambler    *mongo.Collection
 }
 
 var (
-	once sync.Once
+	once     sync.Once
 	instance *client
 )
 
@@ -28,8 +29,9 @@ func New() *client {
 		}
 		db := c.Database(configs.New().Mongo.Db)
 		instance = &client{
-			c,
-			db.Collection("sports_data"),
+			Client:     c,
+			SportsData: db.Collection("sports_data"),
+			Gambler:    db.Collection("gambler"),
 		}
 		if err := instance.Ping(nil, nil); err != nil {
 			panic(err)
@@ -39,7 +41,7 @@ func New() *client {
 	return instance
 }
 
-func (c *client) GetGames(filter bson.M) ([]collection.SportsData, error){
+func (c *client) GetGames(filter bson.M) ([]collection.SportsData, error) {
 	log.Debug("query games from db: ", filter)
 	var documents []collection.SportsData
 	cursor, err := c.SportsData.Find(nil, filter)
