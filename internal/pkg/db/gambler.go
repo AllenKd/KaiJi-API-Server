@@ -5,7 +5,6 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// TODO: set index
 func (c *client) CreateGambler(gambler *collection.Gambler) error {
 	log.Debug("create gambler: ", gambler.String())
 
