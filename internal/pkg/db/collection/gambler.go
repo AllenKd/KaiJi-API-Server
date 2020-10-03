@@ -3,7 +3,7 @@ package collection
 import "fmt"
 
 type Gambler struct {
-	Id        string `json:"id"`
+	Name      string `json:"name,omitempty"`
 	Principle int    `json:"principle"`
 	Strategy  struct {
 		Name        string `json:"name"`
@@ -16,5 +16,5 @@ type Gambler struct {
 }
 
 func (g *Gambler) String() string {
-	return fmt.Sprintf("strategy: %s, put strategy: %s", g.Strategy.Name, g.Strategy.PutStrategy.Name)
+	return fmt.Sprintf("gambler name: %s, strategy: %s, put strategy: %s", g.Name, g.Strategy.Name, g.Strategy.PutStrategy.Name)
 }
