@@ -24,14 +24,6 @@ type GetGamesOption struct {
 	Desc   bool
 }
 
-var parseOrder = func(b bool) int {
-	if b {
-		return -1
-	} else {
-		return 1
-	}
-}
-
 func GetGames(c *gin.Context) {
 	log.Debug("getting games")
 
@@ -39,25 +31,26 @@ func GetGames(c *gin.Context) {
 	gameType := c.Query("game-type")
 	begin, _ := strconv.ParseInt(c.Query("begin"), 10, 64)
 	end, _ := strconv.ParseInt(c.Query("end"), 10, 64)
+
 	limit, _ := strconv.ParseInt(c.Query("limit"), 10, 64)
 	offset, _ := strconv.ParseInt(c.Query("offset"), 10, 64)
 	sortBy := c.DefaultQuery("sort-by", "_id")
 	desc, _ := strconv.ParseBool(c.Query("desc"))
 
 	// construct query filter
-	req := new(GetGamesFilter)
+	f := new(GetGamesFilter)
 	if gameType != "" {
-		req.GameType = gameType
+		f.GameType = gameType
 	}
-	req.GameTime = map[string]time.Time{}
+	f.GameTime = map[string]time.Time{}
 	if begin > 0 {
-		req.GameTime["$gte"] = time.Unix(begin, 0)
+		f.GameTime["$gte"] = time.Unix(begin, 0)
 	}
 	if end > 0 {
-		req.GameTime["$lte"] = time.Unix(end, 0)
+		f.GameTime["$lte"] = time.Unix(end, 0)
 	}
 	var filter bson.M
-	b, _ := bson.Marshal(req)
+	b, _ := bson.Marshal(f)
 	if err := bson.Unmarshal(b, &filter); err != nil {
 		log.Error("fail to unmarshal filter: ", err.Error())
 		c.JSON(http.StatusInternalServerError, err.Error())
