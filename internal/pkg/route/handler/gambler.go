@@ -33,15 +33,15 @@ func CreateGambler(c *gin.Context) {
 }
 
 type GetGamblersFilter struct {
-	Strategy    string `bson:"strategy.name,omitempty"`
-	PutStrategy string `bson:"strategy.put_strategy.name,omitempty"`
+	BetStrategy string `bson:"strategy.bet.name,omitempty"`
+	PutStrategy string `bson:"strategy.put.name,omitempty"`
 }
 
 func GetGamblers(c *gin.Context) {
 	log.Debug("getting gamblers")
 
 	// parse query parameters
-	strategy := c.Query("strategy")
+	strategy := c.Query("bet-strategy")
 	putStrategy := c.Query("put-strategy")
 
 	limit, _ := strconv.ParseInt(c.Query("limit"), 10, 64)
@@ -52,7 +52,7 @@ func GetGamblers(c *gin.Context) {
 	// construct query filter
 	f := GetGamblersFilter{}
 	if strategy != "" {
-		f.Strategy = strategy
+		f.BetStrategy = strategy
 	}
 	if putStrategy != "" {
 		f.PutStrategy = putStrategy
