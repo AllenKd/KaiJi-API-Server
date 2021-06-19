@@ -4,11 +4,14 @@ import (
 	"KaiJi-Admin/internal/pkg/db/collection"
 	"KaiJi-Admin/internal/pkg/kjError"
 	"KaiJi-Admin/internal/pkg/service/user"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 	"net/http"
 )
+
+type resp struct {
+	Token string `json:"token"`
+}
 
 func UserSignIn(c *gin.Context) {
 	log.Debug("handler user sign in")
@@ -25,7 +28,10 @@ func UserSignIn(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, fmt.Sprintf(`"token": "%s"`, token))
+	res := resp{
+		Token: token,
+	}
+	c.JSON(http.StatusOK, res)
 	log.Debug("user sign in successfully")
 	return
 }
