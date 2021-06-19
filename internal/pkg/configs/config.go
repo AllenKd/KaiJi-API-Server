@@ -16,6 +16,7 @@ const (
 
 type config struct {
 	Mode string `yaml:"mode"`
+	JwtSign string `yaml:"jwt_sign"`
 	Log  struct {
 		Level string `yaml:"level"`
 	} `yaml:"log"`

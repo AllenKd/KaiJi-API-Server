@@ -1,22 +1,11 @@
 package collection
 
-import "fmt"
+import "go.mongodb.org/mongo-driver/bson/primitive"
 
-type Gambler struct {
-	Name     string `json:"name,omitempty"`
-	Capital  int    `json:"capital"`
-	Strategy struct {
-		Bet struct {
-			Name       string                 `json:"name"`
-			Parameters map[string]interface{} `json:"parameters,omitempty"`
-		} `json:"bet"`
-		Put struct {
-			Name       string                 `json:"name"`
-			Parameters map[string]interface{} `json:"parameters,omitempty"`
-		} `json:"put"`
-	}
-}
-
-func (g *Gambler) String() string {
-	return fmt.Sprintf("gambler name: %s, bet strategy: %s, put strategy: %s", g.Name, g.Strategy.Bet.Name, g.Strategy.Put.Name)
+type GamblerData struct {
+	Id           *primitive.ObjectID `json:"id,omitempty" bson:"_id,omitempty"`
+	SimulationId *primitive.ObjectID `json:"simulation_id" bson:"simulation_id"`
+	//StrategyId   *primitive.ObjectID `json:"strategy_id" bson:"strategy_id"`
+	MoneyBegin   float64             `json:"money_begin" bson:"money_begin"`
+	MoneyCurrent float64             `json:"money_current" bson:"money_current"`
 }

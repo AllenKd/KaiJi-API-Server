@@ -1,7 +1,7 @@
 package db
 
 import (
-	"KaiJi-API-Server/internal/pkg/configs"
+	"KaiJi-Admin/internal/pkg/configs"
 	log "github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -10,8 +10,16 @@ import (
 
 type client struct {
 	*mongo.Client
-	SportsData *mongo.Collection
-	Gambler    *mongo.Collection
+	User          *mongo.Collection
+	Decision      *mongo.Collection
+	Game          *mongo.Collection
+	Gambling      *mongo.Collection
+	Betting       *mongo.Collection
+	Gambler       *mongo.Collection
+	GambleHistory *mongo.Collection
+	Strategy      *mongo.Collection
+	StrategyMeta  *mongo.Collection
+	Simulation    *mongo.Collection
 }
 
 var (
@@ -27,9 +35,17 @@ func New() *client {
 		}
 		db := c.Database(configs.New().Mongo.Db)
 		instance = &client{
-			Client:     c,
-			SportsData: db.Collection("sports_data"),
-			Gambler:    db.Collection("gambler"),
+			Client:        c,
+			User:          db.Collection("user"),
+			Game:          db.Collection("game"),
+			Decision:      db.Collection("decision"),
+			Gambling:      db.Collection("gambling"),
+			Betting:       db.Collection("betting"),
+			Gambler:       db.Collection("gambler"),
+			GambleHistory: db.Collection("gamble_history"),
+			Strategy:      db.Collection("strategy"),
+			StrategyMeta:  db.Collection("strategy_meta"),
+			Simulation:    db.Collection("simulation"),
 		}
 		if err := instance.Ping(nil, nil); err != nil {
 			panic(err)

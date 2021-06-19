@@ -1,33 +1,50 @@
 package db
 
 import (
-	"KaiJi-API-Server/internal/pkg/db/collection"
+	"KaiJi-Admin/internal/pkg/db/collection"
 	log "github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func (c *client) GetGames(filter bson.M, option *options.FindOptions) ([]collection.SportsData, error) {
-	log.Debug("query games from db: ", filter)
+func (c client) GetGame(gameId *primitive.ObjectID) (game collection.SportsGameResult, err error) {
+	log.Debug("get game: ", gameId.Hex())
 
-	cursor, err := c.SportsData.Find(nil, filter, option)
-	if err != nil {
-		log.Error("fail to get document: ", err.Error())
-		return nil, err
+	filter := bson.M{
+		"_id": gameId,
 	}
-	var documents []collection.SportsData
-	if err := cursor.All(nil, &documents); err != nil {
-		log.Error(err.Error())
-		return nil, err
-	}
-	return documents, nil
+
+	err = c.Game.FindOne(nil, filter).Decode(&game)
+	return
 }
 
-func (c *client) CountGames(filter bson.M) int64 {
-	count, err := c.SportsData.CountDocuments(nil, filter)
-	if err != nil {
-		log.Error("fail to count documents: ", err.Error())
-		return -1
+func (c client) GetGamesInfo(filter bson.M, option *options.FindOptions) (documents []collection.SportsGameInfo, err error) {
+	log.Debug("query games info from db")
+
+	cursor, dbErr := c.Game.Find(nil, filter, option)
+	if dbErr != nil {
+		log.Error("fail to get document: ", dbErr.Error())
+		err = dbErr
+		return
 	}
-	return count
+	if err = cursor.All(nil, &documents); err != nil {
+		log.Error("fail to decode documents: ", err.Error())
+	}
+	return
+}
+
+func (c client) GetGamesResult(filter bson.M, option *options.FindOptions) (documents []collection.SportsGameResult, err error) {
+	log.Debug("query games result from db: ", filter)
+
+	cursor, dbErr := c.Game.Find(nil, filter, option)
+	if dbErr != nil {
+		log.Error("fail to get document: ", dbErr.Error())
+		err = dbErr
+		return
+	}
+	if err = cursor.All(nil, &documents); err != nil {
+		log.Error("fail to decode documents: ", err.Error())
+	}
+	return
 }
