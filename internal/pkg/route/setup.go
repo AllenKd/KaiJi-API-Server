@@ -8,5 +8,6 @@ import (
 func Setup(r *gin.Engine) {
 	v1 := r.Group("/api/v1")
 
-	v1.POST("/signIn", handler.UserSignIn)
+	signIn := v1.Group("/signIn")
+	signIn.POST("", handler.UserSignIn)
 }
