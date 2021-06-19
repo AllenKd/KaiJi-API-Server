@@ -1,9 +1,9 @@
 package main
 
 import (
-	"KaiJi-API-Server/internal/pkg/configs"
-	"KaiJi-API-Server/internal/pkg/db"
-	"KaiJi-API-Server/internal/pkg/route"
+	"KaiJi-Admin/internal/pkg/configs"
+	"KaiJi-Admin/internal/pkg/db"
+	"KaiJi-Admin/internal/pkg/route"
 	"github.com/gin-gonic/gin"
 )
 
