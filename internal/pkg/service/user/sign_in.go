@@ -22,6 +22,7 @@ func SignIn(userData collection.User) (token string, err *kjError.Error) {
 
 	u, dbErr := db.New().GetUser(userData.Name)
 	if dbErr != nil {
+		log.Error("fail to get user: ", dbErr.Error())
 		err = kjError.DbOperationFail.WithDetailAndStatus(dbErr.Error(), http.StatusInternalServerError)
 		return
 	}
