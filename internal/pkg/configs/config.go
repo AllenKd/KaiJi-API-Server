@@ -3,15 +3,14 @@ package configs
 import (
 	"fmt"
 	log "github.com/sirupsen/logrus"
-	"gopkg.in/yaml.v2"
-	"os"
+	"github.com/spf13/viper"
 	"runtime"
 	"strings"
 	"sync"
 )
 
 const (
-	configPath = "configs/config.yaml"
+	configFolder = "configs"
 )
 
 type config struct {
@@ -35,17 +34,23 @@ var (
 	instance *config
 )
 
+func load(filename string, config interface{}) {
+	viper.SetConfigName(filename)
+	if err := viper.ReadInConfig(); err != nil {
+		log.Fatal("fail to load config file: ", err.Error())
+	}
+	if err := viper.Unmarshal(&config); err != nil {
+		log.Fatal("fail to decode config: ", err.Error())
+	}
+	return
+}
+
 func New() *config {
 	once.Do(func() {
-		file, err := os.Open(configPath)
-		if err != nil {
-			panic(err)
-		}
-		defer file.Close()
-		d := yaml.NewDecoder(file)
-		if err := d.Decode(&instance); err != nil {
-			panic(err)
-		}
+		viper.SetConfigType("yaml")
+		viper.AddConfigPath(configFolder)
+		load("config", &instance)
+
 		instance.initLog()
 
 		if instance.Mongo.Username != "" && instance.Mongo.Password != "" {
@@ -59,13 +64,13 @@ func New() *config {
 	return instance
 }
 
-func (c *config) initLog() {
+func (c config) initLog() {
 	logLevel := map[string]log.Level{
 		"DEBUG": log.DebugLevel,
 		"INFO":  log.InfoLevel,
 		"WARN":  log.WarnLevel,
 		"ERROR": log.ErrorLevel,
-		"FATAL": log.FatalLevel,
+		//"FATAL": log.FatalLevel,
 		"PANIC": log.PanicLevel,
 	}
 
