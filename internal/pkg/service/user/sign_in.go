@@ -17,7 +17,7 @@ const (
 	tokenTtl = 24 * time.Hour
 )
 
-func SignIn(userData collection.User) (token string, err *kjError.Error) {
+func SignIn(userData structs.User) (token string, err *kjError.Error) {
 	log.Debug("sign in user: ", userData.Name)
 
 	u, dbErr := db.New().GetUser(userData.Name)

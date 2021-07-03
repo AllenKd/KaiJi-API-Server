@@ -16,7 +16,7 @@ type resp struct {
 func UserSignIn(c *gin.Context) {
 	log.Debug("handler user sign in")
 
-	var userData collection.User
+	var userData structs.User
 	if err := c.BindJSON(&userData); err != nil {
 		c.JSON(http.StatusBadRequest, kjError.InvalidBody.WithDetail(err.Error()))
 		return

@@ -1,14 +1,14 @@
 package db
 
 import (
-	"KaiJi-Admin/internal/pkg/db/collection"
 	"KaiJi-Admin/internal/pkg/util"
+	"github.com/KaiJi7/common/structs"
 	log "github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func (c client) GetUser(userName string) (userData collection.User, err error) {
+func (c client) GetUser(userName string) (userData structs.User, err error) {
 	log.Debug("get user: ", userName)
 
 	filter := bson.M{
@@ -18,8 +18,8 @@ func (c client) GetUser(userName string) (userData collection.User, err error) {
 	return
 }
 
-func (c client) CreateUser(username, password string) (userData collection.User, err error) {
-	userData = collection.User{
+func (c client) CreateUser(username, password string) (userData structs.User, err error) {
+	userData = structs.User{
 		Name:     username,
 		Password: util.HashedPassword(password),
 	}
