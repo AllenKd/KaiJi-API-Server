@@ -8,7 +8,7 @@ import (
 )
 
 func TestSignIn(t *testing.T) {
-	testUser := collection.User{
+	testUser := structs.User{
 		Name: "testUser",
 		Password: "password",
 	}
