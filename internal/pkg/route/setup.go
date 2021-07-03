@@ -25,4 +25,7 @@ func Setup(r *gin.Engine) {
 
 	signIn := v1.Group("/signIn")
 	signIn.POST("", handler.UserSignIn)
+
+	dashboard := v1.Group("/dashboard")
+	dashboard.GET("/strategy", handler.DashboardStrategy)
 }
