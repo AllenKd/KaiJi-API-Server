@@ -3,10 +3,10 @@ package user
 import (
 	"KaiJi-Admin/internal/pkg/configs"
 	"KaiJi-Admin/internal/pkg/db"
-	"KaiJi-Admin/internal/pkg/db/collection"
 	"KaiJi-Admin/internal/pkg/kjError"
 	"KaiJi-Admin/internal/pkg/route/middle_ware"
 	"KaiJi-Admin/internal/pkg/util"
+	"github.com/KaiJi7/common/structs"
 	"github.com/dgrijalva/jwt-go"
 	log "github.com/sirupsen/logrus"
 	"net/http"

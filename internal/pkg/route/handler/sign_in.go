@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"KaiJi-Admin/internal/pkg/db/collection"
 	"KaiJi-Admin/internal/pkg/kjError"
 	"KaiJi-Admin/internal/pkg/service/user"
+	"github.com/KaiJi7/common/structs"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 	"net/http"

@@ -1,9 +1,9 @@
 package user
 
 import (
-	"KaiJi-Admin/internal/pkg/db/collection"
 	"crypto/sha256"
 	"encoding/hex"
+	"github.com/KaiJi7/common/structs"
 	"testing"
 )
 
